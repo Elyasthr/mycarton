@@ -18,19 +18,31 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare id: UserId
 
   @column()
-  declare fullName: string | null
+  declare name: string
+
+  @column()
+  declare adress: string
+
+  @column()
+  declare city: string
+
+  @column()
+  declare zipCode: string
+
+  @column()
+  declare type: string
 
   @column()
   declare email: string
 
-  @column()
+  @column({ serializeAs: null })
   declare password: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+  declare updatedAt: DateTime
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
 }
