@@ -4,22 +4,20 @@ import User from '#auth/models/user'
 
 const AuthController = () => import('#auth/controllers/auth_controller')
 
-//gérer le fait de pas acceder a cette page si je suis auth
 router
   .group(() => {
     router.post('register', [AuthController, 'register'])
     router.post('login', [AuthController, 'login'])
   })
   .prefix('user')
+  .use(middleware.guest())
 
-router.post('logout', [AuthController, 'logout'])
+router.delete('logout', [AuthController, 'logout']).use(middleware.silent())
 
-router
 router
   .get('/me', async ({ auth, response }) => {
     const user = await User.findOrFail(auth.user!.id)
 
     return response.ok(user)
   })
-
-  .use(middleware.auth({ guards: ['api'] }))
+  .use(middleware.auth())
