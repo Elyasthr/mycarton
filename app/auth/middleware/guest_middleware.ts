@@ -5,9 +5,11 @@ export default class GuestMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
     const isAuthenticated = await ctx.auth.check()
 
-    console.log(isAuthenticated)
     if (isAuthenticated) {
-      return ctx.response.status(401).send({ error: 'Accès non autorisé' })
+      return ctx.response.unauthorized({
+        message: 'Access Denied. You do not have permission to access this resource.',
+        code: 'E_UNAUTHORIZED',
+      })
     }
 
     await next()

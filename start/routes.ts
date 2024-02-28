@@ -1,6 +1,5 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import User from '#auth/models/user'
 
 const AuthController = () => import('#auth/controllers/auth_controller')
 
@@ -13,11 +12,3 @@ router
   .use(middleware.guest())
 
 router.delete('logout', [AuthController, 'logout']).use(middleware.silent())
-
-router
-  .get('/me', async ({ auth, response }) => {
-    const user = await User.findOrFail(auth.user!.id)
-
-    return response.ok(user)
-  })
-  .use(middleware.auth())

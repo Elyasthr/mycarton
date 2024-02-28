@@ -6,7 +6,10 @@ export default class SilentAuthMiddleware {
     const isAuthenticated = await ctx.auth.check()
 
     if (!isAuthenticated) {
-      return ctx.response.status(401).send({ error: 'Accès non autoris' })
+      return ctx.response.unauthorized({
+        message: 'Access Denied. You do not have permission to access this resource.',
+        code: 'E_UNAUTHORIZED',
+      })
     }
 
     await next()
