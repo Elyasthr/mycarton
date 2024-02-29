@@ -1,12 +1,13 @@
+import { UserType } from '#auth/models/user'
 import vine from '@vinejs/vine'
 
 export const registerValidator = vine.compile(
   vine.object({
     name: vine.string().minLength(3).maxLength(64),
-    adress: vine.string().minLength(5).maxLength(255),
+    address: vine.string().minLength(5).maxLength(255),
     city: vine.string().minLength(2).maxLength(64),
     zipCode: vine.string().fixedLength(5),
-    type: vine.enum(['client', 'shopkeeper']),
+    type: vine.enum(UserType),
     email: vine
       .string()
       .email()

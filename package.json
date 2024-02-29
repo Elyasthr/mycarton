@@ -16,6 +16,8 @@
   "imports": {
     "#auth/*": "./app/auth/*.js",
     "#core/*": "./app/core/*.js",
+    "#cartons/*": "./app/cartons/*.js",
+    "#reservations/*": "./app/reservations/*.js",
     "#providers/*": "./providers/*.js",
     "#database/*": "./database/*.js",
     "#start/*": "./start/*.js",

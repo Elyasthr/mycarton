@@ -1,3 +1,4 @@
+import { UserType } from '#auth/models/user'
 import { UserFactory } from '#database/factories/user_factory'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { test } from '@japa/runner'
@@ -8,10 +9,10 @@ test.group('Authentication', (group) => {
   test('should register correctly', async ({ client }) => {
     const response = await client.post('/user/register').json({
       name: 'toto',
-      adress: '4 rue du moulin',
+      address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
-      type: 'client',
+      type: UserType.CUSTOMER,
       email: 'toto@exemple.com',
       password: 'totototo',
     })
@@ -26,7 +27,7 @@ test.group('Authentication', (group) => {
       .post('/user/register')
       .json({
         name: 'toto',
-        adress: '4 rue du moulin',
+        address: '4 rue du moulin',
         city: 'Bagnolet',
         zipCode: '93170',
         type: 'client',
@@ -47,7 +48,7 @@ test.group('Authentication', (group) => {
 
     const response = await client.post('/user/register').json({
       name: 'toto',
-      adress: '4 rue du moulin',
+      address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
       type: 'client',
@@ -70,7 +71,7 @@ test.group('Authentication', (group) => {
   test('should not register with an invalid email', async ({ client }) => {
     const response = await client.post('/user/register').json({
       name: 'toto',
-      adress: '4 rue du moulin',
+      address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
       type: 'client',
@@ -93,7 +94,7 @@ test.group('Authentication', (group) => {
   test('should not register with a short password', async ({ client }) => {
     const response = await client.post('/user/register').json({
       name: 'toto',
-      adress: '4 rue du moulin',
+      address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
       type: 'client',
@@ -116,7 +117,7 @@ test.group('Authentication', (group) => {
   test('should not register with a short name', async ({ client }) => {
     const response = await client.post('/user/register').json({
       name: 'to',
-      adress: '4 rue du moulin',
+      address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
       type: 'client',

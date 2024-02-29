@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table
-        .uuid('tokenable_id')
+        .integer('tokenable_id')
         .notNullable()
         .unsigned()
         .references('id')
