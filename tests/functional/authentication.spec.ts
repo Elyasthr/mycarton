@@ -3,7 +3,7 @@ import { UserFactory } from '#database/factories/user_factory'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { test } from '@japa/runner'
 
-test.group('Authentication', (group) => {
+test.group('User - Register', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
   test('should register correctly', async ({ client }) => {
@@ -13,7 +13,7 @@ test.group('Authentication', (group) => {
       city: 'Bagnolet',
       zipCode: '93170',
       type: UserType.CUSTOMER,
-      email: 'toto@exemple.com',
+      email: 'totoo@exemple.com',
       password: 'totototo',
     })
 
@@ -30,8 +30,8 @@ test.group('Authentication', (group) => {
         address: '4 rue du moulin',
         city: 'Bagnolet',
         zipCode: '93170',
-        type: 'client',
-        email: 'toto@exemple.com',
+        type: UserType.CUSTOMER,
+        email: 'totoo@exemple.com',
         password: 'totototo',
       })
       .loginAs(user)
@@ -44,15 +44,15 @@ test.group('Authentication', (group) => {
   })
 
   test('should not register with an existing email', async ({ client }) => {
-    await UserFactory.merge({ email: 'toto@exemple.com' }).create()
+    await UserFactory.merge({ email: 'totoo@exemple.com' }).create()
 
     const response = await client.post('/user/register').json({
       name: 'toto',
       address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
-      type: 'client',
-      email: 'toto@exemple.com',
+      type: UserType.CUSTOMER,
+      email: 'totoo@exemple.com',
       password: 'totototo',
     })
 
@@ -74,7 +74,7 @@ test.group('Authentication', (group) => {
       address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
-      type: 'client',
+      type: UserType.CUSTOMER,
       email: 'totoexemple.com',
       password: 'totototo',
     })
@@ -97,7 +97,7 @@ test.group('Authentication', (group) => {
       address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
-      type: 'client',
+      type: UserType.CUSTOMER,
       email: 'totoexemple.com',
       password: 'toto',
     })
@@ -120,7 +120,7 @@ test.group('Authentication', (group) => {
       address: '4 rue du moulin',
       city: 'Bagnolet',
       zipCode: '93170',
-      type: 'client',
+      type: UserType.CUSTOMER,
       email: 'toto@exemple.com',
       password: 'tototototo',
     })
@@ -136,6 +136,9 @@ test.group('Authentication', (group) => {
     })
     response.assertStatus(422)
   })
+})
+test.group('User - Login', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
 
   test('should login correctly', async ({ client }) => {
     const user = await UserFactory.create()
@@ -195,6 +198,9 @@ test.group('Authentication', (group) => {
     })
     response.assertStatus(401)
   })
+})
+test.group('User - Logout', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
 
   test('should logout correctly', async ({ client }) => {
     const user = await UserFactory.create()

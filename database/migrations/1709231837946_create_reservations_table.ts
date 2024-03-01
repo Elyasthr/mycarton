@@ -9,7 +9,12 @@ export default class extends BaseSchema {
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
       table.enum('status', ['RESERVED', 'MODIFIED', 'COMPLETED', 'CANCELED']).notNullable()
-      table.integer('customer_id').references('id').inTable('users').onDelete('CASCADE')
+      table
+        .integer('customer_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
     })
   }
 

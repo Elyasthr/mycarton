@@ -10,7 +10,12 @@ export default class extends BaseSchema {
       table.timestamp('updated_at', { useTz: false }).notNullable()
       table.enu('size', ['XS', 'S', 'M', 'L', 'XL', 'XXL']).notNullable()
       table.enu('status', ['INSTOCK', 'RESERVED', 'DELIVERED', 'NOTAVAILABLE']).notNullable()
-      table.integer('merchant_id').references('id').inTable('users').onDelete('CASCADE')
+      table
+        .integer('merchant_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
       table
         .integer('reservation_id')
         .nullable()

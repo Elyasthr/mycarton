@@ -40,7 +40,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare city: string
 
-  @column()
+  @column({ columnName: 'zip_code' })
   declare zipCode: string
 
   @column()
