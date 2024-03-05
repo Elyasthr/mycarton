@@ -11,7 +11,7 @@ test.group('Cartons - Add', (group) => {
   test('should add carton successfully for merchant user', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
     const response = await client
-      .post('/cartons/add')
+      .post('/cartons')
       .loginAs(user)
       .json({ cartons: [{ size: 'L', quantity: 1 }] })
 
@@ -21,7 +21,7 @@ test.group('Cartons - Add', (group) => {
   test('should add multiple carton successfully for merchant user', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
     const response = await client
-      .post('/cartons/add')
+      .post('/cartons')
       .loginAs(user)
       .json({
         cartons: [
@@ -36,7 +36,7 @@ test.group('Cartons - Add', (group) => {
   test('should not add more than 100 carton', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
     const response = await client
-      .post('/cartons/add')
+      .post('/cartons')
       .loginAs(user)
       .json({
         cartons: [
@@ -51,7 +51,7 @@ test.group('Cartons - Add', (group) => {
   test('should not add less than 1 carton', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
     const response = await client
-      .post('/cartons/add')
+      .post('/cartons')
       .loginAs(user)
       .json({
         cartons: [
@@ -66,7 +66,7 @@ test.group('Cartons - Add', (group) => {
   test('should not add carton with invalid size', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
     const response = await client
-      .post('/cartons/add')
+      .post('/cartons')
       .loginAs(user)
       .json({
         cartons: [
@@ -81,7 +81,7 @@ test.group('Cartons - Add', (group) => {
   test('should not add carton with invalid quantity', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
     const response = await client
-      .post('/cartons/add')
+      .post('/cartons')
       .loginAs(user)
       .json({
         cartons: [{ size: 'M', quantity: 'L' }],
@@ -92,14 +92,14 @@ test.group('Cartons - Add', (group) => {
 
   test('should not add carton with invalid data', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.MERCHANT }).create()
-    const response = await client.post('/cartons/add').loginAs(user).json({ size: 'Z' })
+    const response = await client.post('/cartons').loginAs(user).json({ size: 'Z' })
 
     response.assertStatus(422)
   })
 
   test('should not add carton for customer user', async ({ client }) => {
     const user = await UserFactory.merge({ type: UserType.CUSTOMER }).create()
-    const response = await client.post('/cartons/add').loginAs(user).json({ size: 'L' })
+    const response = await client.post('/cartons').loginAs(user).json({ size: 'L' })
 
     response.assertStatus(403)
     response.assertBodyContains({
@@ -109,7 +109,7 @@ test.group('Cartons - Add', (group) => {
   })
 
   test('should not add carton without authentication', async ({ client }) => {
-    const response = await client.post('/cartons/add').json({ size: 'L' })
+    const response = await client.post('/cartons').json({ size: 'L' })
 
     response.assertStatus(401)
     response.assertBodyContains({
@@ -243,7 +243,7 @@ test.group('Cartons - View', (group) => {
   })
 })
 
-test.group('Cartons - List for merchant', (group) => {
+test.group('Cartons - List of cartons', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
   test('should return all cartons for a specified merchant', async ({ client, assert }) => {

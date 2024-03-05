@@ -12,7 +12,7 @@ export default class CartonsController {
   async add({ request, response, auth }: HttpContext) {
     const user = auth.user!
 
-    if (user.type === UserType.CUSTOMER) {
+    if (user.type !== UserType.MERCHANT) {
       return response.forbidden({
         message: 'Access Denied. You do not have permission to access this resource.',
         code: 'E_FORBIDDEN',
@@ -60,7 +60,7 @@ export default class CartonsController {
     }
   }
 
-  async listForMerchant({ params, response }: HttpContext) {
+  async listCartons({ params, response }: HttpContext) {
     const user = await User.findOrFail(params.id)
 
     if (user.type !== UserType.MERCHANT) {

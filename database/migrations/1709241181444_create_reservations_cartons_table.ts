@@ -1,5 +1,6 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
+// inutile tu peut supprimer cette table
 export default class extends BaseSchema {
   protected tableName = 'reservations_cartons'
 
